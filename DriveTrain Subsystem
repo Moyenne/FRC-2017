@@ -1,0 +1,42 @@
+
+package org.usfirst.frc.team5107.robot.subsystems;
+
+import org.usfirst.frc.team5107.robot.Robot;
+import org.usfirst.frc.team5107.robot.RobotMap;
+import org.usfirst.frc.team5107.robot.commands.DriveWithJoysticks;
+
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+public class DriveTrain extends Subsystem {
+
+	RobotDrive drive;
+	VictorSP frontLeft = new VictorSP(RobotMap.fLeftMotor);
+	VictorSP rearLeft = new VictorSP(RobotMap.rLeftMotor);
+	VictorSP frontRight = new VictorSP(RobotMap.fRightMotor);
+	VictorSP rearRight = new VictorSP(RobotMap.rRightMotor);
+	VictorSP[] victors = new VictorSP[4];
+
+	public DriveTrain() {
+		victors[0] = frontLeft;
+		victors[1] = rearLeft;
+		victors[2] = frontRight;
+		victors[3] = rearRight;
+		System.out.println("Main screen on.");
+		drive = new RobotDrive(frontLeft, rearLeft, frontRight, rearRight);
+		drive.setSafetyEnabled(false);
+		for(int x = 0; x < 4; x++)
+		{
+			victors[x].setPosition(0);
+		}
+	}
+
+	public void initDefaultCommand() {
+		setDefaultCommand(new DriveWithJoysticks());
+	}
+
+	public void tankDrive(double left, double right) {
+		drive.tankDrive(left, right);
+	}
+}
